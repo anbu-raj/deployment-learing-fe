@@ -3,7 +3,7 @@ services:
     build: .
     restart: unless-stopped
     ports:
-      - "80:80"
+      - "4200:80"
     networks: [appnet]
 
 networks:
