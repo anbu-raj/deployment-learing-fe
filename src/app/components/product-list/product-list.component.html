@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="header">
+    <h1>Products</h1>
+    <a routerLink="/products/new" class="btn btn-primary">+ New Product</a>
+  </div>
+
+  <p class="error" *ngIf="error">{{ error }}</p>
+
+  <table *ngIf="products.length; else empty">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.name }}</td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.price | number: '1.2-2' }}</td>
+        <td>{{ product.quantity }}</td>
+        <td class="actions">
+          <a [routerLink]="['/products', product.id, 'edit']" class="btn btn-secondary">Edit</a>
+          <button (click)="deleteProduct(product.id)" class="btn btn-danger">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #empty>
+    <p>No products yet.</p>
+  </ng-template>
+</div>
