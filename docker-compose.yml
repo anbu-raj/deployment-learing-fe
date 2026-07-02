@@ -1,0 +1,11 @@
+services:
+  frontend:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    networks: [appnet]
+
+networks:
+  appnet:
+    external: true
