@@ -24,30 +24,15 @@ jobs:
         continue-on-error: true
 
   deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Copy dist to OCI Server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT }}
-          source: "dist/*"
-          target: "/home/opc/deployment-learing-fe/dist"
-          strip_components: 1
-
-      - name: Restart Frontend Container
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT }}
-          script: |
-            cd ~/deployment-learing-fe
-            docker compose down
-            docker compose up -d --build
+      runs-on: ubuntu-latest
+      steps:
+        - uses: appleboy/ssh-action@v1.0.3
+          with:
+            host: ${{ secrets.VPS_HOST }}
+            username: ${{ secrets.VPS_USERNAME }}
+            key: ${{ secrets.VPS_SSH_KEY }}
+            port: ${{ secrets.VPS_PORT }}
+            script: |
+              cd ~/deployment-learing-fe
+              git pull origin main
+              docker compose up -d --build
